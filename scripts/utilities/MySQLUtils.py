@@ -22,3 +22,11 @@ class DBUtils:
             self.db.commit()
         except Exception as e:
             print(str(e))
+
+    def insert_multiple_rows(self, query, val):
+        try:
+            cursor = self.db.cursor()
+            cursor.executemany(query, val)
+            self.db.commit()
+        except Exception as e:
+            print(str(e))
