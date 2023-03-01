@@ -12,7 +12,7 @@ from scripts.utilities.MySQLUtils import DBUtils
 def get_weather_info(position):
     lat = position['lat']
     lng = position['lng']
-    weather_response = requests.get(app_constants.DataSource.make_weather_api(lat, lng))
+    weather_response = requests.get(app_constants.DataSource.WEATHER_API.format(lat=lat, lon=lng, weather_api_key=app_constants.DataSource.WEATHER_API_KEY))
     weather_data = weather_response.text
     weather_dict = json.loads(weather_data)
     current_weather = weather_dict['weather'][0]
