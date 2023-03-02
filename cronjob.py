@@ -54,9 +54,9 @@ def fetch_data():
         print(e)
 
 
-# fetch_data()
-schedule.every(5).minutes.do(fetch_data)
+fetch_data()
+# schedule.every(5).minutes.do(fetch_data)
 
-while True:
-    schedule.run_pending()
-    time.sleep(1)
+# while True:
+#     schedule.run_pending()
+#     time.sleep(1)

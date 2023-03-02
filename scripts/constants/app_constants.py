@@ -1,7 +1,7 @@
 import configparser
 
 config = configparser.ConfigParser()
-config.read('../../config/app_config.conf')
+config.read('config/app_config.conf')
 
 
 class DataSource:
