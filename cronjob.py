@@ -33,7 +33,7 @@ def get_weather_info(position):
     current_temp = weather_dict['main']
     current_weather.update(current_temp)
     insert_into_weather_table(current_weather,lat,lng)
-    return json.dumps(weather_string)
+    return weather_string
 
 
 def getStationData(data_dict):
@@ -72,7 +72,7 @@ def fetch_data():
 
 
 # fetch_data()
-schedule.every(5).minutes.do(fetch_data)
+schedule.every(1).seconds.do(fetch_data)
 
 while True:
     schedule.run_pending()
