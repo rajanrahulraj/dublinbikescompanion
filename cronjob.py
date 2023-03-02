@@ -9,6 +9,19 @@ from scripts.constants import app_constants
 from scripts.utilities.MySQLUtils import DBUtils
 
 
+def insert_into_weather_table(current_weather, lat, lng):
+    weather_insert_query = "INSERT INTO `dublinbikes`.`weather_data` (" \
+                           "`main`,`description`,`temp`,`feels_like`,`temp_min`,`temp_max`,`pressure`, " \
+                           "`humidity`,`latitude`,`longitude`,`date_fetch_time`) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,NOW());"
+
+    del current_weather["id"]
+    del current_weather["icon"]
+    current_weather["lat"] = lat
+    current_weather["lng"] = lng
+
+    DBUtils().insert_multiple_rows(weather_insert_query, [list(current_weather.values())])
+
+
 def get_weather_info(position):
     lat = position['lat']
     lng = position['lng']
@@ -16,9 +29,12 @@ def get_weather_info(position):
     weather_data = weather_response.text
     weather_dict = json.loads(weather_data)
     current_weather = weather_dict['weather'][0]
+    weather_string = json.dumps(current_weather)
     current_temp = weather_dict['main']
     current_weather.update(current_temp)
-    return json.dumps(current_weather)
+    insert_into_weather_table(current_weather,lat,lng)
+    return json.dumps(weather_string)
+
 
 def getStationData(data_dict):
     station_data = []
@@ -37,6 +53,7 @@ def getStationData(data_dict):
         station_data.append(station_values)
 
     return station_data
+
 
 def fetch_data():
     try:
