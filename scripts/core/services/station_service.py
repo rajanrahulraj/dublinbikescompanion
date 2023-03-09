@@ -14,3 +14,21 @@ def get_stations_Contract():
     data = response.json()
     return jsonify(data)
 
+
+@station_service_router.route('/list')
+def get_stations_lists():
+    url = f'{app_constants.DataSource.DUBLIN_BIKES_BASE_API}/stations'
+    params = {'apiKey': f'{app_constants.DataSource.API_KEY}'}
+    response = requests.get(url, params=params)
+    data = response.json()
+    return jsonify(data)
+
+
+@station_service_router.route('/19')
+def get_stationInfo():
+    url = f'{app_constants.DataSource.DUBLIN_BIKES_BASE_API}/stations/19'
+    params = {'contract': 'rouen', 'apiKey': f'{app_constants.DataSource.API_KEY}'}
+    response = requests.get(url, params=params)
+    data = response.json()
+    return jsonify(data)
+
