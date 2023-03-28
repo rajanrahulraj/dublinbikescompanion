@@ -10,6 +10,7 @@ class DataSource:
     WEATHER_API_KEY = config.get("JCDecaux", "WEATHER_API_KEY")
     DYNAMIC_DATA_API = f"https://api.jcdecaux.com/vls/v1/stations?contract={CONTRACT}&apiKey={API_KEY}"
     WEATHER_API = "https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={weather_api_key}"
+    DUBLIN_BIKES_BASE_API = config.get("JCDecaux", "BASE_API")
 
 
 class DB:
