@@ -30,3 +30,12 @@ class DBUtils:
             self.db.commit()
         except Exception as e:
             print(str(e))
+
+    def get_station_data(self, query, station_id):
+        try:
+            cursor = self.db.cursor()
+            cursor.execute(query, (station_id,))
+            rows = cursor.fetchall()
+            return rows
+        except Exception as e:
+            print(str(e))
