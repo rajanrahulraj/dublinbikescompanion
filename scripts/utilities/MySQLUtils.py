@@ -39,3 +39,10 @@ class DBUtils:
             return rows
         except Exception as e:
             print(str(e))
+
+    def remove_station_data(self, query, station_id):
+        try:
+            cursor = self.db.cursor()
+            cursor.execute(query, (station_id,))
+        except Exception as e:
+            print(str(e))

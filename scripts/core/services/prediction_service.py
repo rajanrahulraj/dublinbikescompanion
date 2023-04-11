@@ -24,6 +24,16 @@ day_ranks = {
     'Sunday': 7
 }
 
+weather_ranks = {
+    'Clear': 1,
+    'Clouds': 2,
+    'Drizzle': 3,
+    'Mist': 4,
+    'Rain': 5,
+    'Fog': 6,
+    'Snow': 7
+}
+
 
 @prediction_service_router.record_once
 def deserialize_picklefiles(state):
@@ -47,7 +57,8 @@ def load_station_details():
         prediction_service_router.station_ids.append(station_dtl['number'])
         prediction_service_router.total_bikes_dict[station_dtl['number']] = station_dtl['bike_stands']
         prediction_service_router.position_dict[station_dtl['number']] = station_dtl['position']
-        weatherUtil.insert_weather_forecast(station_dtl['number'], station_dtl['position'])
+        if station_dtl['number'] == 30:
+            weatherUtil.insert_weather_forecast(station_dtl['number'], station_dtl['position'])
         prediction_service_router.last_forecast_updated[station_dtl['number']] = datetime.today()
 
 
@@ -55,6 +66,10 @@ def load_station_details():
 def datetime_to_day(fetch_time):
     day_of_week = fetch_time.strftime('%A')
     return day_ranks[day_of_week]
+
+
+def quantify_weather(weather):
+    return weather_ranks[weather]
 
 
 def datetime_to_decimal(fetch_time):
@@ -88,13 +103,14 @@ def get_predictions(station_id):
     # Finding the record that is closest to the prediction time in the DB
     # and fetch the weather and temp from that record @Aarya
 
-    weather = input_data.get('weather') #replace this line with the data from above
-    temperature = input_data.get('temperature')
+    recieved_data = weatherUtil.get_weather_forecast_from_db(station_id_val, prediction_time)
+    temperature, weather = recieved_data
     hour = datetime_to_decimal(prediction_time)
     day_of_week = datetime_to_day(prediction_time)
+    weather_val = quantify_weather(weather)
 
     df = pd.DataFrame({
-        'weather': [weather],
+        'weather': [weather_val],
         'temperature': [temperature],
         'hour': [hour],
         'day_of_week': [day_of_week]
