@@ -90,7 +90,7 @@ def get_predictions(station_id):
     station_id_val = int(station_id)
     update_gap = today - prediction_service_router.last_forecast_updated[station_id_val]
     update_gap_days = update_gap.days
-    if update_gap_days > 4:
+    if update_gap_days >= 1:
         # Insert latest weather forecast in the DB
         weatherUtil.insert_weather_forecast(station_id, prediction_service_router.position_dict[station_id_val])
 
