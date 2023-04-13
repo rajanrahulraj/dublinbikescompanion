@@ -3,6 +3,9 @@ import pickle
 import pandas as pd
 from flask import Blueprint, request, jsonify
 from datetime import datetime
+
+from flask_cors import cross_origin
+
 from scripts.constants import app_constants
 from scripts.utilities import weatherUtil
 
@@ -80,6 +83,7 @@ def datetime_to_decimal(fetch_time):
 
 
 @prediction_service_router.route('/predict/<station_id>', methods=['POST'])
+@cross_origin()
 def get_predictions(station_id):
     # Access the JSON payload from the request body
     input_data = request.json

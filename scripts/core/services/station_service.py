@@ -12,7 +12,9 @@ def get_stations_Contract():
     params = {'contract': 'dublin', 'apiKey': f'{app_constants.DataSource.API_KEY}'}
     response = requests.get(url, params=params)
     data = response.json()
-    return jsonify(data)
+    response = jsonify(data)
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
 
 @station_service_router.route('/list')
@@ -21,7 +23,9 @@ def get_stations_lists():
     params = {'apiKey': f'{app_constants.DataSource.API_KEY}'}
     response = requests.get(url, params=params)
     data = response.json()
-    return jsonify(data)
+    response = jsonify(data)
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
 
 @station_service_router.route('/<int:station_id>')
@@ -30,7 +34,10 @@ def get_stationInfo(station_id):
     params = {'contract': 'rouen', 'apiKey': '345d8f2cc1b7c5cf1bd07cbea465c9b0ee666e6a'}
     response = requests.get(url, params=params)
     data = response.json()
-    return jsonify(data)
+
+    response = jsonify(data)
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
 @station_service_router.route('/contractslist')
 def get_contracts():
@@ -38,5 +45,7 @@ def get_contracts():
     params = {'apiKey': '345d8f2cc1b7c5cf1bd07cbea465c9b0ee666e6a'}
     response = requests.get(url, params=params)
     data = response.json()
-    return jsonify(data)
+    response = jsonify(data)
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
