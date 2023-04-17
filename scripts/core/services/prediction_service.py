@@ -60,8 +60,7 @@ def load_station_details():
         prediction_service_router.station_ids.append(station_dtl['number'])
         prediction_service_router.total_bikes_dict[station_dtl['number']] = station_dtl['bike_stands']
         prediction_service_router.position_dict[station_dtl['number']] = station_dtl['position']
-        if station_dtl['number'] == 30:
-            weatherUtil.insert_weather_forecast(station_dtl['number'], station_dtl['position'])
+        weatherUtil.insert_weather_forecast(station_dtl['number'], station_dtl['position'])
         prediction_service_router.last_forecast_updated[station_dtl['number']] = datetime.today()
 
 

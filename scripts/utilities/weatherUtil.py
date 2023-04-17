@@ -47,6 +47,7 @@ def get_weather_forecast_from_db(station_id, prediction_time):
     correct_weather = None
     for predictions in prediction_rows:
         forecast_time_string, weather, temp_string = predictions
+        #check timezone issue @Aarya
         dt_utc_db = datetime.datetime.utcfromtimestamp(int(forecast_time_string))
         current_time_diff = dt_utc_db - prediction_time
         if current_time_diff < time_diff:
