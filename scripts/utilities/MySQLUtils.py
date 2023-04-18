@@ -46,3 +46,22 @@ class DBUtils:
             cursor.execute(query, (station_id,))
         except Exception as e:
             print(str(e))
+
+
+    def get_station_data_with_time(self, query, station_id,fetch_start, fetch_end):
+        try:
+            cursor = self.db.cursor()
+            cursor.execute(query, (station_id,fetch_start,fetch_end,))
+            rows = cursor.fetchall()
+            return rows
+        except Exception as e:
+            print(str(e))
+
+    def get_station_data_with_time_threshold(self, query, station_id,fetch_start):
+        try:
+            cursor = self.db.cursor()
+            cursor.execute(query, (station_id,fetch_start,))
+            rows = cursor.fetchall()
+            return rows
+        except Exception as e:
+            print(str(e))
