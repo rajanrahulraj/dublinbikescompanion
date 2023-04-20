@@ -1,9 +1,9 @@
+import json
 from datetime import datetime
 
 import requests
 from flask import Blueprint, jsonify, request
 from flask_cors import cross_origin
-from flask_restful.representations import json
 
 from scripts.constants import app_constants
 from scripts.utilities import trend_util

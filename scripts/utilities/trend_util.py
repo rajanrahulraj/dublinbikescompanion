@@ -32,12 +32,15 @@ def get_weekly_trend_from_db(station_id, current_time):
     for historic_data in historic_data_rows:
         available_bikes, available_stands, data_fetch_time = historic_data
         time_diff = current_time - data_fetch_time
-        historic_data_dict[time_diff.days]['available_bikes'] += available_bikes
-        historic_data_dict[time_diff.days]['available_stands'] += available_stands
-        historic_data_dict[time_diff.days]['records'] += 1
+        if time_diff.days > 0:
+            historic_data_dict[time_diff.days]['available_bikes'] += available_bikes
+            historic_data_dict[time_diff.days]['available_stands'] += available_stands
+            historic_data_dict[time_diff.days]['records'] += 1
+
 
     for day in range(1,8):
-        historic_data_dict[time_diff.days]['available_bikes']  = historic_data_dict[time_diff.days]['available_bikes'] /historic_data_dict[time_diff.days]['records']
+        historic_data_dict[day]['available_bikes']  = int(historic_data_dict[day]['available_bikes'] /historic_data_dict[day]['records'])
+        historic_data_dict[day]['available_stands'] = int(historic_data_dict[day]['available_stands'] / historic_data_dict[day]['records'])
 
     return historic_data_dict
 

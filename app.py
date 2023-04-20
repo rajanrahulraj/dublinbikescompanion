@@ -27,4 +27,4 @@ app.register_blueprint(trend_service_router)
 
 
 if __name__ == "__main__":
-    app.run(host='localhost', port=5001)
+    app.run(host='localhost', port=5000)
