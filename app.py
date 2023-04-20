@@ -18,7 +18,7 @@ app.register_blueprint(trend_service_router)
 # @app.after_request
 # def after_request(response):
 #     response.headers[
-#         "Access-Control-Allow-Origin"] = "*"  # <- You can change "*" for a domain for example "http://localhost"
+#         "Access-Control-Allow-Origin"] = "*" 
 #     response.headers["Access-Control-Allow-Credentials"] = "true"
 #     response.headers["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS, PUT, DELETE"
 #     response.headers[
