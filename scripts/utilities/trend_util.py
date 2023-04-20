@@ -16,12 +16,12 @@ def get_weekly_trend_from_db(station_id, current_time):
     # time_period = datetime.timedelta(weeks=4)
     # current_time = current_time - time_period
 
-
+    current_time = current_time.replace(minute=0,hour=0,second=0,microsecond=0)
     historic_data_dict = dict()
     for day in range(1,8):
         historic_data_dict[day] = {'available_bikes':0, 'available_stands':0,'records':0}
 
-    week_gap = datetime.timedelta(weeks=1)
+    week_gap = datetime.timedelta(days=8)
     time_threhold = current_time - week_gap
 
     query = "SELECT `available_bikes`,`available_bike_stands`,`data_fetch_time` FROM `dublinbikes`.`apidata` WHERE `number` = " \
