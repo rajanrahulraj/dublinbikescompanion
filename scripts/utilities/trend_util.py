@@ -18,30 +18,32 @@ def get_weekly_trend_from_db(station_id, current_time):
 
 
     historic_data_dict = dict()
-    for day_before in range(1,8):
-        time_period_day = datetime.timedelta(days=day_before)
-        data_fetch_day = current_time - time_period_day
-        time_period_half_hour = datetime.timedelta(minutes=30)
+    for day in range(1,8):
+        historic_data_dict[day] = {'available_bikes':0, 'available_stands':0,'records':0}
 
-        data_fetch_start_time = current_time - time_period_half_hour
-        data_fetch_end_time = current_time + time_period_half_hour
+    week_gap = datetime.timedelta(weeks=1)
+    time_threhold = current_time - week_gap
 
-        query = "SELECT `available_bikes`,`available_bike_stands`,`data_fetch_time` FROM `dublinbikes`.`apidata` WHERE `number` = " \
-                "%s and `data_fetch_time` > %s and `data_fetch_time` < %s"
-        historic_data_rows = DBUtils().get_station_data_with_time(query, station_id, data_fetch_start_time,
-                                                                  data_fetch_end_time)
+    query = "SELECT `available_bikes`,`available_bike_stands`,`data_fetch_time` FROM `dublinbikes`.`apidata` WHERE `number` = " \
+            "%s and `data_fetch_time` > %s"
 
-        available_bikes_list = []
-        available_stands_list = []
-        for historic_data in historic_data_rows:
-            available_bikes, available_stands, data_fetch_time = historic_data
-            available_bikes_list.append(available_bikes)
-            available_stands_list.append(available_stands)
+    historic_data_rows = DBUtils().get_station_data_with_time_threshold(query, station_id, time_threhold)
+
+    for historic_data in historic_data_rows:
+        available_bikes, available_stands, data_fetch_time = historic_data
+        time_diff = current_time - data_fetch_time
+        historic_data_dict[time_diff.days]['available_bikes'] += available_bikes
+        historic_data_dict[time_diff.days]['available_stands'] += available_stands
+        historic_data_dict[time_diff.days]['records'] += 1
+
+    for day in range(1,8):
+        historic_data_dict[time_diff.days]['available_bikes']  = historic_data_dict[time_diff.days]['available_bikes'] /historic_data_dict[time_diff.days]['records']
+
+    return historic_data_dict
 
 
-        data_fetch_time_ts = int(round(data_fetch_day.timestamp()))
-        data_fetch_time_str = str(data_fetch_time_ts)
-        historic_data_dict[data_fetch_time_str] = {"bikes_available_avg":int(mean(available_bikes_list)), "stands_available_avg":int(mean(available_stands_list))}
+
+
 
     return historic_data_dict
 
